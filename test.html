@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Daplug JS - Test page</title>
+
+    <link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/mgbemnbocfpecccpecgommbeilnainej" />
+    <link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/icnekhdkfglaecpcdkjoahlnjllocjgo" />
+
+    <script src="js/jquery-1.10.2.min.js"></script>
+    <script src="js/plugup.min.js"></script>
+    <script src="js/DES.js"></script>
+    <script src="js/daplug.js"></script>
+    <script src="test.js"></script>
+  </head> 
+  <body>
+    <div id="action">
+      <div>
+        <button onclick="PU.selectFirst()">Select first dongle</button>
+        <button onclick="PU.testApdu()">Simple APDU test</button>
+      </div>
+      <div>
+        <button onclick="PU.testAuth()">Run SCP test</button>
+        <button onclick="PU.testFile()">Run file test</button>
+        <button onclick="PU.testPutKey()">Run PutKey test</button>
+        <button onclick="PU.testCrypto()">Run Crypto test</button>
+      </div>
+      <div>
+        <button onclick="PU.testHmac()">Run HMAC test</button>
+        <button onclick="PU.testHotp()">Run HOTP test</button>
+        <button onclick="PU.testTotp()">Run TOTP test</button>
+      </div>
+      <div>
+        <textarea id="target"></textarea>
+        <button onclick="PU.testKeyboard()">Run keyboard test</button>
+        <button onclick="PU.cleanKb()">Clean keyboard test</button>
+      </div>
+      <div>
+        <button onclick="PU.testSam()">SAM test</button>
+      </div>
+    </div>
+    <div id="result"></div>
+  </body>
+</html>
