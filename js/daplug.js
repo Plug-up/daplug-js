@@ -203,7 +203,7 @@
 
         self.addHotpCode = function(flag, digits, keyset, counterFile, div){
             var data = toHex(flag) + toHex(digits) + toHex(keyset)
-            if (typeof div == typeof undef) data += div
+            if (typeof div !== typeof undef) data += div
             data += toHex(counterFile, 4)
             cth("50" + toHex(data.length/2) + data)
         }
@@ -828,6 +828,7 @@
         }
 
         self.useAsKeyboard = exchangeApdu("D032000000")
+        self.reset = exchangeApdu("D052010000")
 
         self.setKeyboardAtBoot = function(activated) {
             var apdu = "D032"
