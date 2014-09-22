@@ -364,6 +364,12 @@
             })
         }
 
+        var testRandom = function(){
+            dongle.random(70)(function(rand){
+                console.debug(rand.toString(HEX))
+            })
+        }
+
         var testSam = function(){
             console.debug("Starting SAM test")
             var samSN = "5046c07189e271b412695337595000010109"
@@ -436,8 +442,9 @@
             testHmac     : testHmac,
             testHotp     : testHotp,
             testPutKey   : testPutKey,
-            testTotp     : testTotp,
-            testSam      : testSam
+            testRandom   : testRandom,
+            testSam      : testSam,
+            testTotp     : testTotp
         }
 
     }();

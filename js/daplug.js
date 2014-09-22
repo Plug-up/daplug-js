@@ -830,6 +830,10 @@
         self.useAsKeyboard = exchangeApdu("D032000000")
         self.reset = exchangeApdu("D052010000")
 
+        self.random = function(length){
+            return exchangeApdu("D0240000"+toHex(length, 2))
+        }
+
         self.setKeyboardAtBoot = function(activated) {
             var apdu = "D032"
             if (activated) apdu += "020000"
