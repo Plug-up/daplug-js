@@ -25,6 +25,22 @@
             })
         }
 
+        var getSerials = function() {
+            function aux(lst, i) {
+                if (i < lst.length) {
+                    Daplug.getDongle(lst[i])(function(d){
+                        d.getSerial(function(serial){
+                            console.debug(serial.toString(HEX))
+                            aux(lst, i+1)
+                        })
+                    })
+                }
+            }
+            Daplug.getDongleList(function(devices){
+                aux(devices, 0)
+            })
+        }
+
         var testApdu = function() {
             dongle.getSerial(function(ans){
                 console.debug(ans.toString(HEX))
@@ -433,6 +449,7 @@
 
         return {
             cleanKb      : cleanKb,
+            getSerials   : getSerials,
             selectFirst  : selectFirst,
             testApdu     : testApdu,
             testAuth     : testAuth,
