@@ -228,6 +228,7 @@
         var self = this
         self.name = ""
         self.card = card
+        self.mode = card.terminal.device.transport
 
         /* HW SC values */
         self.sam = undef
@@ -414,8 +415,12 @@
         self.__exchangeApdu2 = exchangeApdu2
 
         self.getSerial = exchangeApdu("80e6000000")
+        self.getStatus = function(cb, errCb){
+            exchangeApdu("80f2400000")(function(res){
+                cb(res.byteAt(9))
+            })(errCb)
+        }
 
-        self.getStatus = exchangeApdu("80f2400000")
         self.setStatus = function(status){
             return exchangeApdu("80f040" + toHex(status) + "00")
         }
@@ -678,10 +683,12 @@
                     function(){
                         var nb = keyVersions.length
                         function aux(i){
-                            log("Del key " + i)
                             if (i == nb) self.selectFile(Daplug.MASTER_FILE)(cb, errCb)
-                            else self.deleteFileOrDir(0x1000 + keyVersions[i])(
-                                function(){aux(i+1)}, errCb)
+                            else {
+                                log("Del key " + i)
+                                self.deleteFileOrDir(0x1000 + keyVersions[i])(
+                                    function(){aux(i+1)}, errCb)
+                            }
                         }
                         aux(0)
                     }, errCb
@@ -829,6 +836,24 @@
 
         self.useAsKeyboard = exchangeApdu("D032000000")
         self.reset = exchangeApdu("D052010000")
+
+        self.hid2usb = function(cb, errCb){
+            if (self.mode == "hid") {
+                exchangeApdu("D052080200")(cb, errCb)
+            } else {
+                log.error("Not in HID mode")
+                errCb()
+            }
+        }
+
+        self.usb2hid = function(cb, errCb){
+            if (self.mode == "winusb") {
+                exchangeApdu("D052080100")(cb, errCb)
+            } else {
+                log.error("Not in HID mode")
+                errCb()
+            }
+        }
 
         self.random = function(length){
             return exchangeApdu("D0240000"+toHex(length, 2))
